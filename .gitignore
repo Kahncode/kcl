@@ -1,0 +1,5 @@
+#Ignore cmake temporary build directory
+Build/
+
+#Ignore build artifacts
+Binaries/
