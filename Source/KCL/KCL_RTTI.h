@@ -82,13 +82,6 @@ struct TypeData
 {
 };
 
-// Member ::ourTypeId will be TypeId instance
-// Member ::ourInfo will be TypeInfo instance
-template<typename T>
-struct TypeInfoImpl
-{
-};
-
 // Do NOT use! Use KCL::RTTI::GetTypeInfo instead
 // Member ::Get() will return const TypeInfo*
 template<typename T>
@@ -279,6 +272,21 @@ KCL_FORCEINLINE Derived DynamicCast(Base* aBasePtr)
 }
 
 } // namespace RTTI
+
+namespace RTTI_Private
+{
+#pragma pack(push, 1)
+
+template<typename T>
+struct TypeInfoImpl
+{
+	const RTTI::TypeInfo myInfo;
+	const TypeData<T> myData;
+};
+
+#pragma pack(pop)
+
+} // namespace RTTI_Private
 } // namespace KCL
 
 template<typename Derived, typename Base>
@@ -288,22 +296,14 @@ KCL_FORCEINLINE Derived kcl_dynamic_cast(Base* aBasePtr)
 }
 
 // Common declaration
-// Note: Ideally we need to pack this structure as well, issues may appear
 #define KCL_RTTI_TYPEINFO(TYPE)                                                                                                            \
-	template<>                                                                                                                             \
-	struct TypeInfoImpl<TYPE>                                                                                                              \
-	{                                                                                                                                      \
-		const KCL::RTTI::TypeInfo ourInfo;                                                                                                 \
-		const TypeData<TYPE> ourTypeId;                                                                                                    \
-	};                                                                                                                                     \
-                                                                                                                                           \
 	template<>                                                                                                                             \
 	struct GetTypeInfo<TYPE>                                                                                                               \
 	{                                                                                                                                      \
 		static const KCL_FORCEINLINE KCL::RTTI::TypeInfo* Get()                                                                            \
 		{                                                                                                                                  \
 			static TypeInfoImpl<TYPE> ourInstance = {{#TYPE}, TypeData<TYPE>()};                                                           \
-			return &ourInstance.ourInfo;                                                                                                   \
+			return &ourInstance.myInfo;                                                                                                    \
 		}                                                                                                                                  \
 	};
 
