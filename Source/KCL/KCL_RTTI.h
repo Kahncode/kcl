@@ -61,6 +61,90 @@ namespace RTTI_Private
 // You can reduce the size at will here
 typedef uint32_t typeId_t;
 
+// Member ::Get() will return const TypeInfo*
+template<typename T>
+struct GetTypeInfo
+{
+};
+
+} // namespace RTTI_Private
+
+// Public RTTI API
+namespace RTTI
+{
+typedef KCL::RTTI_Private::typeId_t typeId_t;
+
+// Interface of TypeInfo
+struct TypeInfo
+{
+	KCL_FORCEINLINE const char* GetName() const { return myName; }
+	KCL_FORCEINLINE const char* GetTypeData() const { return (char*)(this + 1); }
+	KCL_FORCEINLINE typeId_t GetTypeId() const { return *(typeId_t*)(GetTypeData() + sizeof(typeId_t)); }
+	inline intptr_t CastTo(intptr_t aPtr, typeId_t aTypeId) const
+	{
+		const char* data = GetTypeData();
+		size_t byteIndex = 0;
+		ptrdiff_t offset = 0;
+
+		while (true)
+		{
+			typeId_t size = *(typeId_t*)(data + byteIndex);
+			byteIndex += sizeof(typeId_t);
+
+			for (typeId_t i = 0; i < size; i++, byteIndex += sizeof(typeId_t))
+			{
+				if (*(typeId_t*)(data + byteIndex) == aTypeId)
+					return aPtr + offset;
+			}
+
+			offset = *(ptrdiff_t*)(data + byteIndex);
+			if (offset == 0)
+				return 0;
+
+			byteIndex += sizeof(ptrdiff_t);
+		}
+	}
+
+	KCL_FORCEINLINE bool operator==(const TypeInfo& anOther) const { return GetTypeId() == anOther.GetTypeId(); }
+	KCL_FORCEINLINE bool operator!=(const TypeInfo& anOther) const { return GetTypeId() != anOther.GetTypeId(); }
+
+	const char* myName;
+};
+
+// Public interface to access type information
+// Always access through this or risk wrong behavior
+template<typename T>
+KCL_FORCEINLINE const TypeInfo* GetTypeInfo()
+{
+	typedef typename std::decay<std::remove_cv<T>::type>::type Type;
+	return KCL::RTTI_Private::GetTypeInfo<Type>::Get();
+}
+
+template<typename T>
+KCL_FORCEINLINE typeId_t GetTypeId()
+{
+	return GetTypeInfo<T>()->GetTypeId();
+}
+
+template<typename Derived, typename Base>
+KCL_FORCEINLINE Derived DynamicCast(Base* aBasePtr)
+{
+	static_assert(std::is_pointer<Derived>::value, "Return type must be a pointer");
+	typedef std::remove_pointer<Derived>::type DerivedObjectType;
+
+	if constexpr (std::is_base_of<DerivedObjectType, Base>::value)
+		return static_cast<Derived>(aBasePtr);
+	else if (aBasePtr)
+		return reinterpret_cast<Derived>(aBasePtr->KCL_RTTI_DynamicCast(GetTypeId<DerivedObjectType>()));
+	else
+		return nullptr;
+}
+
+} // namespace RTTI
+
+namespace RTTI_Private
+{
+
 static typeId_t GenerateId()
 {
 	// magic number that increases every time it is called
@@ -76,20 +160,13 @@ static ptrdiff_t ComputePointerOffset()
 	return (intptr_t)basePtr - (intptr_t)derivedPtr;
 }
 
+#pragma pack(push, 1)
+
 // Specialization will contain the magic data.
 template<typename T>
 struct TypeData
 {
 };
-
-// Do NOT use! Use KCL::RTTI::GetTypeInfo instead
-// Member ::Get() will return const TypeInfo*
-template<typename T>
-struct GetTypeInfo
-{
-};
-
-#pragma pack(push, 1)
 
 // Recursively populates the typeData
 // Layout of typeData:
@@ -159,7 +236,7 @@ struct BaseTypeData<Base>
 		}
 	}
 
-	// Size minus end marker
+	// We only need the previous type data array, but not its size or end marker
 	char myData[sizeof(TypeData<Base>) - sizeof(ptrdiff_t) - sizeof(typeId_t)];
 };
 
@@ -194,88 +271,6 @@ struct TypeDataImpl<Type>
 	typeId_t myTypeId;
 	ptrdiff_t myEndMarker;
 };
-
-#pragma pack(pop)
-
-} // namespace RTTI_Private
-
-// Public RTTI API
-namespace RTTI
-{
-typedef KCL::RTTI_Private::typeId_t typeId_t;
-
-// Interface of TypeInfo
-struct TypeInfo
-{
-	KCL_FORCEINLINE const char* GetName() const { return myName; }
-	KCL_FORCEINLINE const char* GetTypeData() const { return (char*)(this + 1); }
-	KCL_FORCEINLINE typeId_t GetTypeId() const { return *(typeId_t*)(GetTypeData() + sizeof(typeId_t)); }
-	inline intptr_t CastTo(intptr_t aPtr, typeId_t aTypeId) const
-	{
-		const char* data = GetTypeData();
-		size_t byteIndex = 0;
-		ptrdiff_t offset = 0;
-
-		while (true)
-		{
-			typeId_t size = *(typeId_t*)(data + byteIndex);
-			byteIndex += sizeof(typeId_t);
-
-			for (typeId_t i = 0; i < size; i++, byteIndex += sizeof(typeId_t))
-			{
-				if (*(typeId_t*)(data + byteIndex) == aTypeId)
-					return aPtr + offset;
-			}
-
-			offset = *(ptrdiff_t*)(data + byteIndex);
-			if (offset == 0)
-				return 0;
-
-			byteIndex += sizeof(ptrdiff_t);
-		}
-	}
-
-	KCL_FORCEINLINE bool operator==(const TypeInfo& anOther) const { return GetTypeId() == anOther.GetTypeId(); }
-	KCL_FORCEINLINE bool operator!=(const TypeInfo& anOther) const { return GetTypeId() != anOther.GetTypeId(); }
-
-	const char* myName;
-};
-
-// Public interface to access type information
-// Always access through this or risk wrong behavior
-// General template is there to avoid duplicates when using combinations of the base type
-template<typename T>
-KCL_FORCEINLINE const TypeInfo* GetTypeInfo()
-{
-	typedef typename std::decay<std::remove_cv<T>::type>::type Type;
-	return KCL::RTTI_Private::GetTypeInfo<Type>::Get();
-}
-
-template<typename T>
-KCL_FORCEINLINE typeId_t GetTypeId()
-{
-	return GetTypeInfo<T>()->GetTypeId();
-}
-
-template<typename Derived, typename Base>
-KCL_FORCEINLINE Derived DynamicCast(Base* aBasePtr)
-{
-	static_assert(std::is_pointer<Derived>::value, "Return type must be a pointer");
-	typedef std::remove_pointer<Derived>::type DerivedObjectType;
-
-	if constexpr (std::is_base_of<DerivedObjectType, Base>::value)
-		return static_cast<Derived>(aBasePtr);
-	else if (aBasePtr)
-		return reinterpret_cast<Derived>(aBasePtr->KCL_RTTI_DynamicCast(GetTypeId<DerivedObjectType>()));
-	else
-		return nullptr;
-}
-
-} // namespace RTTI
-
-namespace RTTI_Private
-{
-#pragma pack(push, 1)
 
 template<typename T>
 struct TypeInfoImpl
