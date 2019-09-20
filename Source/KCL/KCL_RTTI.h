@@ -144,7 +144,6 @@ KCL_FORCEINLINE Derived DynamicCast(Base* aBasePtr)
 
 namespace RTTI_Private
 {
-
 static typeId_t GenerateId()
 {
 	// magic number that increases every time it is called
@@ -183,12 +182,12 @@ template<typename FirstBase, typename SecondBase, typename... Next>
 struct BaseTypeData<FirstBase, SecondBase, Next...>
 {
 	template<typename Derived>
-	void FillBaseTypeData(typeId_t& outSize, ptrdiff_t aOffset)
+	void FillBaseTypeData(ptrdiff_t aOffset, typeId_t& outHeadSize)
 	{
-		myFirst.FillBaseTypeData<Derived>(outSize, ComputePointerOffset<Derived, FirstBase>());
+		myFirst.FillBaseTypeData<Derived>(ComputePointerOffset<Derived, FirstBase>(), outHeadSize);
 
 		myOffset = ComputePointerOffset<Derived, SecondBase>();
-		myNext.FillBaseTypeData<Derived>(mySize, myOffset);
+		myNext.FillBaseTypeData<Derived>(myOffset, mySize);
 	}
 
 	BaseTypeData<FirstBase> myFirst;
@@ -201,12 +200,12 @@ template<typename Base>
 struct BaseTypeData<Base>
 {
 	template<typename Derived>
-	void FillBaseTypeData(typeId_t& outSize, ptrdiff_t aOffset)
+	void FillBaseTypeData(ptrdiff_t aOffset, typeId_t& outHeadSize)
 	{
 		const TypeData<Base>* baseTypeId = (TypeData<Base>*)(GetTypeInfo<Base>::Get()->GetTypeData());
 
 		// return size of head list
-		outSize = baseTypeId->mySize;
+		outHeadSize = baseTypeId->mySize;
 
 		const char* data = baseTypeId->GetData();
 		size_t byteSize = baseTypeId->mySize * sizeof(typeId_t);
@@ -218,7 +217,7 @@ struct BaseTypeData<Base>
 		ptrdiff_t offset = *(ptrdiff_t*)(data + byteIndex);
 		while (offset != 0)
 		{
-			// fill next offset
+			// fill next offset and add pointer offset
 			*(ptrdiff_t*)(myData + byteIndex) = offset + aOffset;
 			byteIndex += sizeof(ptrdiff_t);
 
@@ -240,15 +239,15 @@ struct BaseTypeData<Base>
 	char myData[sizeof(TypeData<Base>) - sizeof(ptrdiff_t) - sizeof(typeId_t)];
 };
 
-// Actual implementation of the TypeId
+// Actual implementation of TypeData<Type>
 template<typename Type, typename... BaseTypes>
 struct TypeDataImpl
 {
 	TypeDataImpl()
 	{
 		myTypeId = GenerateId();
-		myBaseTypes.FillBaseTypeData<Type>(mySize, 0);
-		mySize++;
+		myBaseTypeData.FillBaseTypeData<Type>(0 /* No offset with first base */, mySize);
+		mySize++; // Size is the base's size + 1 to account for current type id
 		myEndMarker = 0;
 	}
 
@@ -256,7 +255,7 @@ struct TypeDataImpl
 
 	typeId_t mySize;
 	typeId_t myTypeId;
-	BaseTypeData<BaseTypes...> myBaseTypes;
+	BaseTypeData<BaseTypes...> myBaseTypeData;
 	ptrdiff_t myEndMarker;
 };
 
@@ -288,6 +287,13 @@ template<typename Derived, typename Base>
 KCL_FORCEINLINE Derived kcl_dynamic_cast(Base* aBasePtr)
 {
 	return KCL::RTTI::DynamicCast<Derived, Base>(aBasePtr);
+}
+
+template<typename Derived, typename Base>
+KCL_FORCEINLINE Derived kcl_dynamic_cast(Base& aBasePtr)
+{
+	typedef typename std::add_pointer<std::decay<std::remove_cv<Derived>::type>::type>::type DerivedPointerType;
+	return *KCL::RTTI::DynamicCast<DerivedPointerType, Base>(&aBasePtr);
 }
 
 // Common declaration

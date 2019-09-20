@@ -172,6 +172,15 @@ void RTTI_Test()
 	dPtr = kcl_dynamic_cast<Derived1A*>(&b);
 	assert(!dPtr);
 
+	//standard dynamic_cast also support references
+	Base1& bRef = b;
+	Derived1A& dRef = kcl_dynamic_cast<Derived1A&>(bRef);
+	assert(&dRef == nullptr);
+
+	Base1& bRef2 = *basePtrToDerived;
+	Derived1A& dRef2 = kcl_dynamic_cast<Derived1A&>(bRef2);
+	assert(&dRef2 != nullptr);
+
 	{
 		// confirming that deep inheritance chains work and the logic of recursive typeId building is sound
 		Derived7A der7;
