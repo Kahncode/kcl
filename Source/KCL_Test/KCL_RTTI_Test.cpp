@@ -319,6 +319,8 @@ void RTTI_Test()
 	// Base1* base1dyn = kcl_dynamic_cast<Base1*>(&m);
 }
 
+static int validCastCounter = 0;
+
 template<typename Derived, typename T>
 KCL_NOINLINE void RunDynamicCastTest(const std::vector<std::shared_ptr<T>>& testVector, int loopCount)
 {
@@ -327,6 +329,8 @@ KCL_NOINLINE void RunDynamicCastTest(const std::vector<std::shared_ptr<T>>& test
 		for (const auto& it : testVector)
 		{
 			Derived* result = dynamic_cast<Derived*>(it.get());
+			if (result)
+				validCastCounter++;
 		}
 	}
 }
@@ -339,6 +343,8 @@ KCL_NOINLINE void RunKCLCastTest(const std::vector<std::shared_ptr<T>>& testVect
 		for (const auto& it : testVector)
 		{
 			Derived* result = kcl_dynamic_cast<Derived*>(it.get());
+			if (result)
+				validCastCounter++;
 		}
 	}
 }
@@ -350,6 +356,8 @@ void RTTI_Benchmark()
 
 	static const int iterations = 1000000;
 	static const int loopCount = 10;
+
+	validCastCounter = 0;
 
 	// One level deep single inheritance hierarchies
 	{
@@ -1162,5 +1170,7 @@ void RTTI_Benchmark()
 			}
 		}
 	}
+
+	printf("Valid cast counter: %d", validCastCounter);
 }
 } // namespace KCL_Test
