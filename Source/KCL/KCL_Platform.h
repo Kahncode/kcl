@@ -29,14 +29,14 @@
 // KCL Compiler defines
 // Useful link: http://sourceforge.net/p/predef/wiki/Compilers
 #if defined(_MSC_VER)
-#	define KCL_COMPILER_MSVC
+#	define KCL_COMPILER_MSVC 1
 #	define KCL_COMPILER_MSVC_2013 (_MSC_VER >= 1800)
 #	define KCL_COMPILER_MSVC_2015 (_MSC_VER >= 1900)
 #	define KCL_COMPILER_MSVC_2017 (_MSC_VER >= 1910)
 #elif defined(__clang__)
-#	define KCL_COMPILER_CLANG
+#	define KCL_COMPILER_CLANG 1
 #elif (defined(__GNUC__) || defined(__GNUG__)) && !defined(__clang__) // clang also defines these
-#	define KCL_COMPILER_GCC
+#	define KCL_COMPILER_GCC 1
 #else
 #	error Compiler not recognized
 //#elif defined(__ICC) || defined(__INTEL_COMPILER)
@@ -100,6 +100,7 @@
 #elif defined(KCL_COMPILER_CLANG)
 // TODO : inlining behavior
 #	pragma clang diagnostic ignored "-Wcomment" // disable nested comments warning
+#elif defined(KCL_COMPILER_GCC)
 #else
 #	error Not implemented for this compiler
 #endif
@@ -115,7 +116,7 @@
 #	define KCL_FORCEINLINE inline __attribute__((always_inline))
 #	define KCL_NOINLINE __attribute__((noinline))
 #	define KCL_ALIGN(X) GCC_ALIGN(X)
-#elif defined(KCL_COMPILER_CGG)
+#elif defined(KCL_COMPILER_GCC)
 #	define KCL_FORCEINLINE inline __attribute__((always_inline))
 #	define KCL_NOINLINE __attribute__((noinline))
 #	define KCL_ALIGN(X) GCC_ALIGN(X)

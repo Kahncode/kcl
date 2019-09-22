@@ -23,6 +23,7 @@
 #pragma once
 
 #include <cstdint>
+#include <cstring>
 #include <type_traits>
 
 #include "KCL_Platform.h"
@@ -116,7 +117,7 @@ struct TypeInfo
 template<typename T>
 KCL_FORCEINLINE const TypeInfo* GetTypeInfo()
 {
-	typedef typename std::decay<std::remove_cv<T>::type>::type Type;
+	typedef typename std::decay<typename std::remove_cv<T>::type>::type Type;
 	return KCL::RTTI_Private::GetTypeInfo<Type>::Get();
 }
 
@@ -130,7 +131,7 @@ template<typename Derived, typename Base>
 KCL_FORCEINLINE Derived DynamicCast(Base* aBasePtr)
 {
 	static_assert(std::is_pointer<Derived>::value, "Return type must be a pointer");
-	typedef std::remove_pointer<Derived>::type DerivedObjectType;
+	typedef typename std::remove_pointer<Derived>::type DerivedObjectType;
 
 	if constexpr (std::is_base_of<DerivedObjectType, Base>::value)
 		return static_cast<Derived>(aBasePtr);
@@ -184,10 +185,10 @@ struct BaseTypeData<FirstBase, SecondBase, Next...>
 	template<typename Derived>
 	void FillBaseTypeData(ptrdiff_t aOffset, typeId_t& outHeadSize)
 	{
-		myFirst.FillBaseTypeData<Derived>(ComputePointerOffset<Derived, FirstBase>(), outHeadSize);
+		myFirst.template FillBaseTypeData<Derived>(ComputePointerOffset<Derived, FirstBase>(), outHeadSize);
 
 		myOffset = ComputePointerOffset<Derived, SecondBase>();
-		myNext.FillBaseTypeData<Derived>(myOffset, mySize);
+		myNext.template FillBaseTypeData<Derived>(myOffset, mySize);
 	}
 
 	BaseTypeData<FirstBase> myFirst;
@@ -246,7 +247,7 @@ struct TypeDataImpl
 	TypeDataImpl()
 	{
 		myTypeId = GenerateId();
-		myBaseTypeData.FillBaseTypeData<Type>(0 /* No offset with first base */, mySize);
+		myBaseTypeData.template FillBaseTypeData<Type>(0 /* No offset with first base */, mySize);
 		mySize++; // Size is the base's size + 1 to account for current type id
 		myEndMarker = 0;
 	}
@@ -292,7 +293,7 @@ KCL_FORCEINLINE Derived kcl_dynamic_cast(Base* aBasePtr)
 template<typename Derived, typename Base>
 KCL_FORCEINLINE Derived kcl_dynamic_cast(Base& aBasePtr)
 {
-	typedef typename std::add_pointer<std::decay<std::remove_cv<Derived>::type>::type>::type DerivedPointerType;
+	typedef typename std::add_pointer<typename std::decay<typename std::remove_cv<Derived>::type>::type>::type DerivedPointerType;
 	return *KCL::RTTI::DynamicCast<DerivedPointerType, Base>(&aBasePtr);
 }
 
@@ -301,7 +302,7 @@ KCL_FORCEINLINE Derived kcl_dynamic_cast(Base& aBasePtr)
 	template<>                                                                                                                             \
 	struct GetTypeInfo<TYPE>                                                                                                               \
 	{                                                                                                                                      \
-		static const KCL_FORCEINLINE KCL::RTTI::TypeInfo* Get()                                                                            \
+		static const KCL::RTTI::TypeInfo* Get()                                                                                            \
 		{                                                                                                                                  \
 			static TypeInfoImpl<TYPE> ourInstance = {{#TYPE}, TypeData<TYPE>()};                                                           \
 			return &ourInstance.myInfo;                                                                                                    \
@@ -330,16 +331,16 @@ KCL_FORCEINLINE Derived kcl_dynamic_cast(Base& aBasePtr)
 	virtual intptr_t KCL_RTTI_DynamicCast(KCL::RTTI::typeId_t aOtherTypeId) const                                                          \
 	{                                                                                                                                      \
 		typedef std::remove_pointer<decltype(this)>::type ObjectType;                                                                      \
-		return KCL::RTTI::GetTypeInfo<ObjectType>()->CastTo((intptr_t)this, aOtherTypeId);                                                 \
+		return KCL::RTTI::template GetTypeInfo<ObjectType>()->CastTo((intptr_t)this, aOtherTypeId);                                        \
 	}                                                                                                                                      \
 	virtual const KCL::RTTI::TypeInfo* KCL_RTTI_GetTypeInfo() const                                                                        \
 	{                                                                                                                                      \
 		typedef std::remove_pointer<decltype(this)>::type ObjectType;                                                                      \
-		return KCL::RTTI::GetTypeInfo<ObjectType>();                                                                                       \
+		return KCL::RTTI::template GetTypeInfo<ObjectType>();                                                                              \
 	}                                                                                                                                      \
 	virtual const char* KCL_RTTI_GetTypeName() const { return KCL_RTTI_GetTypeInfo()->GetName(); }                                         \
 	virtual KCL::RTTI::typeId_t KCL_RTTI_GetTypeId() const                                                                                 \
 	{                                                                                                                                      \
 		typedef std::remove_pointer<decltype(this)>::type ObjectType;                                                                      \
-		return KCL::RTTI::GetTypeId<ObjectType>();                                                                                         \
+		return KCL::RTTI::template GetTypeId<ObjectType>();                                                                                \
 	}

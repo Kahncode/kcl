@@ -1,5 +1,9 @@
-#Ignore cmake temporary build directory
+#Ignore cmake generated files
 Build/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
 
 #Ignore build artifacts
 Binaries/

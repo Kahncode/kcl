@@ -381,7 +381,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Single inheritance, 1 level deep. STD Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Single inheritance, 1 level deep. STD Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -394,7 +394,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Single inheritance, 1 level deep. KCL Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Single inheritance, 1 level deep. KCL Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -407,7 +407,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Single inheritance, 1 level deep. STD Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Single inheritance, 1 level deep. STD Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -420,7 +420,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Single inheritance, 1 level deep. KCL Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Single inheritance, 1 level deep. KCL Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 	}
@@ -447,7 +447,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Single inheritance, 3 level deep. STD Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Single inheritance, 3 level deep. STD Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -460,7 +460,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Single inheritance, 3 level deep. KCL Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Single inheritance, 3 level deep. KCL Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -473,7 +473,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Single inheritance, 3 level deep. STD Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Single inheritance, 3 level deep. STD Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -486,7 +486,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Single inheritance, 3 level deep. KCL Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Single inheritance, 3 level deep. KCL Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 	}
@@ -513,7 +513,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Single inheritance, 7 level deep. STD Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Single inheritance, 7 level deep. STD Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -526,7 +526,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Single inheritance, 7 level deep. KCL Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Single inheritance, 7 level deep. KCL Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -539,7 +539,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Single inheritance, 7 level deep. STD Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Single inheritance, 7 level deep. STD Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -552,7 +552,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Single inheritance, 7 level deep. KCL Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Single inheritance, 7 level deep. KCL Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 	}
@@ -579,7 +579,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Wrong cast, 1 level deep. STD i: %llu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
+			printf("Wrong cast, 1 level deep. STD i: %zu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
 		}
 
 		// Upcast kcl
@@ -591,7 +591,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Wrong cast, 1 level deep. KCL i: %llu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
+			printf("Wrong cast, 1 level deep. KCL i: %zu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
 		}
 	}
 
@@ -617,7 +617,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Wrong cast, 3 level deep. STD i: %llu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
+			printf("Wrong cast, 3 level deep. STD i: %zu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
 		}
 
 		// Upcast kcl
@@ -629,7 +629,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Wrong cast, 3 level deep. KCL i: %llu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
+			printf("Wrong cast, 3 level deep. KCL i: %zu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
 		}
 	}
 
@@ -655,7 +655,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Wrong cast, 7 level deep. STD i: %llu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
+			printf("Wrong cast, 7 level deep. STD i: %zu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
 		}
 
 		// Upcast kcl
@@ -667,7 +667,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Wrong cast, 7 level deep. KCL i: %llu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
+			printf("Wrong cast, 7 level deep. KCL i: %zu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
 		}
 	}
 
@@ -693,7 +693,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Nullptr cast STD i: %llu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
+			printf("Nullptr cast STD i: %zu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
 		}
 
 		// Upcast kcl
@@ -705,7 +705,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Nullptr cast KCL i: %llu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
+			printf("Nullptr cast KCL i: %zu, time (ms): %f\n", testObjects.size(), deltaTime.count() / (float)loopCount);
 		}
 	}
 
@@ -731,7 +731,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base1, 1 level deep. STD Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base1, 1 level deep. STD Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -744,7 +744,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base1, 1 level deep. KCL Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base1, 1 level deep. KCL Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -757,7 +757,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base1, 1 level deep. STD Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base1, 1 level deep. STD Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -770,7 +770,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base1, 1 level deep. KCL Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base1, 1 level deep. KCL Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 	}
@@ -797,7 +797,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base2, 1 level deep. STD Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base2, 1 level deep. STD Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -810,7 +810,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base2, 1 level deep. KCL Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base2, 1 level deep. KCL Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -823,7 +823,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base2, 1 level deep. STD Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base2, 1 level deep. STD Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -836,7 +836,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base2, 1 level deep. KCL Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base2, 1 level deep. KCL Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 	}
@@ -863,7 +863,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base1, 3 level deep. STD Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base1, 3 level deep. STD Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -876,7 +876,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base1, 3 level deep. KCL Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base1, 3 level deep. KCL Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -889,7 +889,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base1, 3 level deep. STD Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base1, 3 level deep. STD Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -902,7 +902,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base1, 3 level deep. KCL Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base1, 3 level deep. KCL Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 	}
@@ -929,7 +929,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base2, 3 level deep. STD Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base2, 3 level deep. STD Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -942,7 +942,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base2, 3 level deep. KCL Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base2, 3 level deep. KCL Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -955,7 +955,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base2, 3 level deep. STD Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base2, 3 level deep. STD Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -968,7 +968,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base2, 3 level deep. KCL Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base2, 3 level deep. KCL Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 	}
@@ -995,7 +995,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base1, 7 level deep. STD Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base1, 7 level deep. STD Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -1008,7 +1008,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base1, 7 level deep. KCL Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base1, 7 level deep. KCL Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -1021,7 +1021,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base1, 7 level deep. STD Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base1, 7 level deep. STD Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -1034,7 +1034,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base1, 7 level deep. KCL Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base1, 7 level deep. KCL Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 	}
@@ -1061,7 +1061,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base2, 7 level deep. STD Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base2, 7 level deep. STD Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -1074,7 +1074,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base2, 7 level deep. KCL Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base2, 7 level deep. KCL Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -1087,7 +1087,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base2, 7 level deep. STD Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base2, 7 level deep. STD Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -1100,7 +1100,7 @@ void RTTI_Benchmark()
 			auto after = steady_clock::now();
 			duration<double, std::milli> deltaTime = after - before;
 
-			printf("Multiple inheritance, base2, 7 level deep. KCL Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+			printf("Multiple inheritance, base2, 7 level deep. KCL Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 				deltaTime.count() / (float)loopCount);
 		}
 
@@ -1126,7 +1126,7 @@ void RTTI_Benchmark()
 				auto after = steady_clock::now();
 				duration<double, std::milli> deltaTime = after - before;
 
-				printf("Nested Multiple Inheritance 3*2 STD Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+				printf("Nested Multiple Inheritance 3*2 STD Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 					deltaTime.count() / (float)loopCount);
 			}
 
@@ -1139,7 +1139,7 @@ void RTTI_Benchmark()
 				auto after = steady_clock::now();
 				duration<double, std::milli> deltaTime = after - before;
 
-				printf("Nested Multiple Inheritance 3*2 KCL Upcast i: %llu, time (ms): %f\n", testObjects.size(),
+				printf("Nested Multiple Inheritance 3*2 KCL Upcast i: %zu, time (ms): %f\n", testObjects.size(),
 					deltaTime.count() / (float)loopCount);
 			}
 
@@ -1152,7 +1152,7 @@ void RTTI_Benchmark()
 				auto after = steady_clock::now();
 				duration<double, std::milli> deltaTime = after - before;
 
-				printf("Nested Multiple Inheritance 3*2 STD Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+				printf("Nested Multiple Inheritance 3*2 STD Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 					deltaTime.count() / (float)loopCount);
 			}
 
@@ -1165,7 +1165,7 @@ void RTTI_Benchmark()
 				auto after = steady_clock::now();
 				duration<double, std::milli> deltaTime = after - before;
 
-				printf("Nested Multiple Inheritance 3*2 KCL Downcast i: %llu, time (ms): %f\n", testObjects.size(),
+				printf("Nested Multiple Inheritance 3*2 KCL Downcast i: %zu, time (ms): %f\n", testObjects.size(),
 					deltaTime.count() / (float)loopCount);
 			}
 		}
