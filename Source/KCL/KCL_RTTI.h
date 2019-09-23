@@ -290,13 +290,6 @@ KCL_FORCEINLINE Derived kcl_dynamic_cast(Base* aBasePtr)
 	return KCL::RTTI::DynamicCast<Derived, Base>(aBasePtr);
 }
 
-template<typename Derived, typename Base>
-KCL_FORCEINLINE Derived kcl_dynamic_cast(Base& aBasePtr)
-{
-	typedef typename std::add_pointer<typename std::decay<typename std::remove_cv<Derived>::type>::type>::type DerivedPointerType;
-	return *KCL::RTTI::DynamicCast<DerivedPointerType, Base>(&aBasePtr);
-}
-
 // Common declaration
 #define KCL_RTTI_TYPEINFO(TYPE)                                                                                                            \
 	template<>                                                                                                                             \
