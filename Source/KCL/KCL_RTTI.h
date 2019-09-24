@@ -89,16 +89,16 @@ struct TypeInfo
 
 		while (true)
 		{
-			typeId_t size = *(typeId_t*)(data + byteIndex);
+			typeId_t size = *reinterpret_cast<const typeId_t*>(data + byteIndex);
 			byteIndex += sizeof(typeId_t);
 
 			for (typeId_t i = 0; i < size; i++, byteIndex += sizeof(typeId_t))
 			{
-				if (*(typeId_t*)(data + byteIndex) == aTypeId)
+				if (*reinterpret_cast<const typeId_t*>(data + byteIndex) == aTypeId)
 					return aPtr + offset;
 			}
 
-			offset = *(ptrdiff_t*)(data + byteIndex);
+			offset = *reinterpret_cast<const ptrdiff_t*>(data + byteIndex);
 			if (offset == 0)
 				return 0;
 
@@ -215,16 +215,16 @@ struct BaseTypeData<Base>
 		memcpy(myData, data, byteSize);
 
 		size_t byteIndex = byteSize;
-		ptrdiff_t offset = *(ptrdiff_t*)(data + byteIndex);
+		ptrdiff_t offset = *reinterpret_cast<const ptrdiff_t*>(data + byteIndex);
 		while (offset != 0)
 		{
 			// fill next offset and add pointer offset
-			*(ptrdiff_t*)(myData + byteIndex) = offset + aOffset;
+			*reinterpret_cast<ptrdiff_t*>(myData + byteIndex) = offset + aOffset;
 			byteIndex += sizeof(ptrdiff_t);
 
 			// fill next size
-			const typeId_t size = *(typeId_t*)(data + byteIndex);
-			*(typeId_t*)(myData + byteIndex) = size;
+			const typeId_t size = *reinterpret_cast<const typeId_t*>(data + byteIndex);
+			*reinterpret_cast<typeId_t*>(myData + byteIndex) = size;
 			byteSize = size * sizeof(typeId_t);
 			byteIndex += sizeof(typeId_t);
 
@@ -232,7 +232,7 @@ struct BaseTypeData<Base>
 			memcpy(myData + byteIndex, data + byteIndex, byteSize);
 			byteIndex += byteSize;
 
-			offset = *(ptrdiff_t*)(data + byteIndex);
+			offset = *reinterpret_cast<const ptrdiff_t*>(data + byteIndex);
 		}
 	}
 
