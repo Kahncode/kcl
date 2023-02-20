@@ -24,6 +24,7 @@
 
 #include <cstdint>
 #include <cstring>
+#include <memory>
 #include <type_traits>
 
 #include "KCL_Platform.h"
@@ -177,6 +178,12 @@ struct TypeData
 template<typename... BaseTypes>
 struct BaseTypeData
 {
+};
+
+template <typename Type>
+struct BaseTypeData<std::enable_shared_from_this<Type>> {
+  template <typename Derived>
+  void FillBaseTypeData(std::ptrdiff_t, typeId_t&) {}
 };
 
 template<typename FirstBase, typename SecondBase, typename... Next>
